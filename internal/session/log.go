@@ -80,6 +80,50 @@ func Load() ([]Entry, error) {
 	return entries, nil
 }
 
+// Remove deletes entries matching gameFilter (if non-empty) and ended at or
+// after since (if non-zero), rewriting the log with the rest. It returns how
+// many entries were removed.
+func Remove(gameFilter string, since time.Time) (int, error) {
+	path, err := config.LogPath()
+	if err != nil {
+		return 0, err
+	}
+	entries, err := Load()
+	if err != nil {
+		return 0, err
+	}
+
+	kept := entries[:0]
+	removed := 0
+	for _, e := range entries {
+		match := (gameFilter == "" || e.Game == gameFilter) && (since.IsZero() || !e.EndedAt.Before(since))
+		if match {
+			removed++
+			continue
+		}
+		kept = append(kept, e)
+	}
+	if removed == 0 {
+		return 0, nil
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		return 0, err
+	}
+	defer f.Close()
+	for _, e := range kept {
+		data, err := json.Marshal(e)
+		if err != nil {
+			return 0, err
+		}
+		if _, err := f.Write(append(data, '\n')); err != nil {
+			return 0, err
+		}
+	}
+	return removed, nil
+}
+
 type Stats struct {
 	TotalSessions int
 	TotalMinutes  float64

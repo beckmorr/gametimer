@@ -85,6 +85,10 @@ Starts the full-screen timer. Flags:
 
 Lists or removes saved games (name, monitored process, default durations).
 
+### `gametimer detect [query]` / `gametimer detect --watch`
+
+Helps find the process name to pass as `--process`, for when it doesn't resemble the game's name (e.g. Persona 5 Royal running as `P5R.exe`). With a query, lists running processes whose command line contains it, replacing `ps aux | grep -i <name>`. With `--watch`, it snapshots running processes, waits for you to launch the game, then shows only what's new.
+
 ### `gametimer theme list` / `preview <theme>` / `set <theme>`
 
 Lists themes, previews a theme's colors in the terminal, or sets the default theme used when `--theme` isn't passed.
@@ -92,6 +96,10 @@ Lists themes, previews a theme's colors in the terminal, or sets the default the
 ### `gametimer stats [--game <game>] [--period today|week|month|all] [--json]`
 
 Sums up play time from the session log, overall or filtered by game/period.
+
+### `gametimer stats clear [--game <game>] [--period today|week|month|all] [--yes]`
+
+Deletes matching sessions from the log (everything by default). Without `--yes`, it only shows how many sessions would be deleted.
 
 ## Themes
 
@@ -125,7 +133,7 @@ Following XDG:
 
 ```
 main.go                              entry point
-cmd/                                 cobra commands (start, games, theme, stats)
+cmd/                                 cobra commands (start, games, theme, stats, detect)
 internal/config/                     config.json + games.json (XDG)
 internal/theme/                      theme color palettes
 internal/session/                    session JSONL log + stats aggregation

@@ -18,6 +18,7 @@ closes the game automatically. Every session is logged so you can track
 how many hours you've played (see "gametimer stats").`,
 	Example: `  gametimer start "Elden Ring" --process eldenring.exe --session 90 --extra 15 --theme dracula
   gametimer start "Elden Ring"
+  gametimer detect "elden ring"
   gametimer games list
   gametimer theme set dracula
   gametimer stats --period week`,
