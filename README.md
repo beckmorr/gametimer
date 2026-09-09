@@ -4,7 +4,7 @@ A full-screen TUI game session timer, written in Go.
 
 ![gametimer session screen](assets/screenshot.png)
 
-## Why it exists
+## Why it exists?
 
 `gametimer` is built to help gamers stay in control of their play time, so they can play in a balanced way and enjoy a session without feeling guilty about it afterward.
 
