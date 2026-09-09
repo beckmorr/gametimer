@@ -2,6 +2,7 @@ package tui
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/charmbracelet/bubbles/spinner"
@@ -39,6 +40,11 @@ type Model struct {
 	phase  phase
 	paused bool
 
+	// starSeed fixes the random starfield drawn around the box: generated
+	// once so the dots stay put across renders instead of jittering every
+	// tick.
+	starSeed int64
+
 	sessionRemaining time.Duration
 	extraRemaining   time.Duration
 	playedSeconds    int
@@ -52,7 +58,7 @@ type Model struct {
 
 func New(game config.Game, th theme.Theme) Model {
 	sp := spinner.New()
-	sp.Spinner = spinner.Points
+	sp.Spinner = spinner.MiniDot
 	sp.Style = lipgloss.NewStyle().Foreground(lipgloss.Color(th.Session)).Background(lipgloss.Color(th.Background))
 	logPath, _ := config.LogPath()
 	return Model{
@@ -60,6 +66,7 @@ func New(game config.Game, th theme.Theme) Model {
 		th:               th,
 		spin:             sp,
 		phase:            phaseSession,
+		starSeed:         rand.Int63(),
 		sessionRemaining: time.Duration(game.SessionMin) * time.Minute,
 		startedAt:        time.Now(),
 		logPath:          logPath,

@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	appDirName   = "github.com/beckmorr/gametimer"
+	appDirName   = "gametimer"
 	configFile   = "config.json"
 	gamesFile    = "games.json"
 	defaultTheme = "default"

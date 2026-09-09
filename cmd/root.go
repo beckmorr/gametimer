@@ -7,9 +7,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// version is set at build time via:
+//
+//	go build -ldflags "-X github.com/beckmorr/gametimer/cmd.version=v1.2.3"
+var version = "dev"
+
 var rootCmd = &cobra.Command{
-	Use:   "gametimer",
-	Short: "Game session timer with a TUI",
+	Use:     "gametimer",
+	Version: version,
+	Short:   "Game session timer with a TUI",
 	Long: `gametimer times your game session in a full-screen TUI.
 
 It warns you when the session ends and, if you give it the game's process

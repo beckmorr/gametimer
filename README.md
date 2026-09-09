@@ -45,6 +45,12 @@ cd gametimer
 go build -o gametimer .
 ```
 
+To have `gametimer --version` report something other than `dev`, inject the version at build time:
+
+```bash
+go build -ldflags "-X github.com/beckmorr/gametimer/cmd.version=$(git describe --tags)" -o gametimer .
+```
+
 ## Quick usage
 
 ```bash
@@ -69,6 +75,10 @@ Without `--process`, the session ends with a warning and there's no auto-close, 
 | `enter` / `q` (on the final screen) | quit the TUI |
 
 ## Commands
+
+### `gametimer --version`
+
+Prints the installed version.
 
 ### `gametimer start <game>`
 
